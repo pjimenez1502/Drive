@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bmpyp1e82ficd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_i8mdi"]
+size = Vector3(1.5, 1.3, 3.5)
+
+[node name="Game" type="Node3D" unique_id=231764403]
+
+[node name="Car" type="Node3D" parent="." unique_id=1836602889]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car" unique_id=311654151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+mesh = SubResource("BoxMesh_i8mdi")
+
+[node name="Road" type="Node3D" parent="." unique_id=301086017]
