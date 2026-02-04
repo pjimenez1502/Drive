@@ -64,7 +64,7 @@ var current_lane: RoadLane
 ## Cache just to check whether the prior lane was made visible by visualize_lane
 var _did_make_lane_visible := false
 
-const DEBUG_OUT: bool = false
+const DEBUG_OUT: bool = true
 
 
 # ------------------------------------------------------------------------------

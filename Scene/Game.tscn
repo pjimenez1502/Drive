@@ -1,14 +1,176 @@
 [gd_scene format=3 uid="uid://bmpyp1e82ficd"]
 
+[ext_resource type="Script" uid="uid://b2nkv1j8shqhu" path="res://Scene/Scene.gd" id="1_3xgnh"]
+[ext_resource type="Script" uid="uid://cy7t7eftsty3j" path="res://Scene/Game.gd" id="1_48ymf"]
+[ext_resource type="Script" uid="uid://86f75ry0igfc" path="res://addons/road-generator/nodes/road_lane_agent.gd" id="1_mopgc"]
+[ext_resource type="Script" uid="uid://d2a6aycqqymdg" path="res://addons/road-generator/nodes/road_manager.gd" id="1_ou18a"]
+[ext_resource type="Script" uid="uid://cbejax4cojbu1" path="res://Scene/Car/Car.gd" id="2_ivtx6"]
+[ext_resource type="Script" uid="uid://biw4mliovom8d" path="res://addons/road-generator/nodes/road_container.gd" id="2_mopgc"]
+[ext_resource type="Script" uid="uid://d1qkcatvpokjh" path="res://addons/road-generator/nodes/road_point.gd" id="3_ivtx6"]
+
+[sub_resource type="Environment" id="Environment_ou18a"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_i8mdi"]
 size = Vector3(1.5, 1.3, 3.5)
 
-[node name="Game" type="Node3D" unique_id=231764403]
+[sub_resource type="PlaneMesh" id="PlaneMesh_3xgnh"]
+size = Vector2(1000, 2000)
 
-[node name="Car" type="Node3D" parent="." unique_id=1836602889]
+[node name="Game" type="Control" unique_id=338916806]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_48ymf")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car" unique_id=311654151]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=147955258]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1896282537]
+handle_input_locally = false
+mesh_lod_threshold = 0.0
+canvas_item_default_texture_filter = 0
+size = Vector2i(576, 324)
+render_target_update_mode = 4
+
+[node name="Scene" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=231764403]
+script = ExtResource("1_3xgnh")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Scene" unique_id=1904604545]
+environment = SubResource("Environment_ou18a")
+
+[node name="PlayerCar" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=1836602889]
+script = ExtResource("2_ivtx6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=311654151]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
 mesh = SubResource("BoxMesh_i8mdi")
 
-[node name="Road" type="Node3D" parent="." unique_id=301086017]
+[node name="CameraPivot" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=349012654]
+transform = Transform3D(0.70710677, -0.6408564, 0.29883623, 0, 0.42261824, 0.9063078, -0.70710677, -0.6408564, 0.29883623, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/CameraPivot" unique_id=2039725816]
+transform = Transform3D(1, 0, 0, 0, 1, -5.9604645e-08, 0, 2.9802322e-08, 1, 0, 0, 25)
+current = true
+
+[node name="Lights" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=1141599506]
+
+[node name="Front_L" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=1275283129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -2)
+shadow_enabled = true
+spot_range = 80.0
+spot_attenuation = 0.5
+
+[node name="Front_R" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=796058253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -2)
+shadow_enabled = true
+spot_range = 80.0
+spot_attenuation = 0.5
+
+[node name="Back_R" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=274400027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 1.835)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.1
+shadow_enabled = true
+omni_range = 2.0
+
+[node name="Back_L" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=380112815]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 1.835)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.1
+shadow_enabled = true
+omni_range = 2.0
+
+[node name="RoadLaneAgent" type="Node" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=535013523]
+unique_name_in_owner = true
+script = ExtResource("1_mopgc")
+road_manager_path = NodePath("../../Road/RoadManager")
+visualize_lane = true
+metadata/_custom_type_script = "uid://86f75ry0igfc"
+
+[node name="Road" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=301086017]
+
+[node name="RoadManager" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road" unique_id=2104401892]
+script = ExtResource("1_ou18a")
+metadata/_custom_type_script = "uid://d2a6aycqqymdg"
+
+[node name="Road_001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager" unique_id=256592211]
+script = ExtResource("2_mopgc")
+use_lowpoly_preview = true
+generate_ai_lanes = true
+edge_containers = Array[NodePath]([NodePath(""), NodePath("")])
+edge_rp_targets = Array[NodePath]([NodePath(""), NodePath("")])
+edge_rp_target_dirs = Array[int]([-1, -1])
+edge_rp_locals = Array[NodePath]([NodePath("RoadPoint-001"), NodePath("RoadPoint001")])
+edge_rp_local_dirs = Array[int]([0, 1])
+
+[node name="RoadPoint-001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=805952600]
+transform = Transform3D(0.99999964, -4.4018793e-06, 0.00087977917, 0, 0.9999875, 0.0050033284, -0.00087979017, -0.0050033266, 0.9999871, 0, 0, 100)
+script = ExtResource("3_ivtx6")
+traffic_dir = Array[int]([2, 1])
+lanes = Array[int]([5, 5])
+prior_mag = 49.96611
+next_mag = 49.96611
+prior_pt_init = NodePath("../RoadPoint")
+
+[node name="RoadPoint" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1072063692]
+transform = Transform3D(0.9999988, 0, 0.0015618976, 0, 1, 0, -0.0015618976, 0, 0.9999988, 0, 0, 0)
+script = ExtResource("3_ivtx6")
+traffic_dir = Array[int]([2, 1])
+lanes = Array[int]([5, 5])
+next_mag = 49.96611
+prior_pt_init = NodePath("../RoadPoint001")
+next_pt_init = NodePath("../RoadPoint-001")
+metadata/_custom_type_script = "uid://d1qkcatvpokjh"
+
+[node name="RoadPoint001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1049363488]
+transform = Transform3D(0.9999988, -6.647121e-06, 0.0015618833, 0, 0.99999094, 0.0042557986, -0.0015618975, -0.0042557935, 0.99998975, 0, 0, -1000)
+script = ExtResource("3_ivtx6")
+traffic_dir = Array[int]([2, 1])
+lanes = Array[int]([5, 5])
+prior_mag = 31.871422
+next_mag = 31.871422
+next_pt_init = NodePath("../RoadPoint")
+
+[node name="Terrain" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=977914424]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Scene/Terrain" unique_id=661591624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.501, 0)
+mesh = SubResource("PlaneMesh_3xgnh")
+
+[node name="Panel" type="Panel" parent="." unique_id=1864944736]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 45.0
+offset_right = 200.0
+offset_bottom = 125.0
+grow_horizontal = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel" unique_id=1861773764]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_right = 200.0
+offset_bottom = 80.0
+grow_horizontal = 2
+text = "I don't want to stop driving."
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1

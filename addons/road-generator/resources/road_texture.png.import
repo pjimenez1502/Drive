@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cj2kmej1ufqf0"
-path.s3tc="res://.godot/imported/road_texture.png-4a28053ce58f385f44518697b3790d3f.s3tc.ctex"
+path="res://.godot/imported/road_texture.png-4a28053ce58f385f44518697b3790d3f.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://addons/road-generator/resources/road_texture.png"
-dest_files=["res://.godot/imported/road_texture.png-4a28053ce58f385f44518697b3790d3f.s3tc.ctex"]
+dest_files=["res://.godot/imported/road_texture.png-4a28053ce58f385f44518697b3790d3f.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
