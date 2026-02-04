@@ -117,6 +117,7 @@ shape = SubResource("SphereShape3D_cohtu")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=389454406]
 stream = ExtResource("6_2j816")
+volume_db = -80.0
 autoplay = true
 
 [node name="Road" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=301086017]
