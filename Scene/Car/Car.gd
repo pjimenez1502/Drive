@@ -5,7 +5,7 @@ class_name Car
 @onready var audio_stream_player_3d: AudioStreamPlayer = $AudioStreamPlayer
 var velocity: float = 30
 
-const max_speed: float = 30   
+const max_speed: float = 30
 
 const DEBUG_OUT: bool = true
 
@@ -32,7 +32,9 @@ func update_velocity(delta: float) -> void:
 	if Input.is_action_pressed("Brake"):
 		velocity = lerp(velocity, 0.0, delta * 1)
 		return
+	
 	velocity = lerp(velocity, 0.0, delta * 0.2)
+	#velocity = lerp(velocity, max_speed, delta * 0.6)
 
 ## ALIGN
 func align_to_road() -> void:
