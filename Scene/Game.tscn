@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://biw4mliovom8d" path="res://addons/road-generator/nodes/road_container.gd" id="2_mopgc"]
 [ext_resource type="Script" uid="uid://d1qkcatvpokjh" path="res://addons/road-generator/nodes/road_point.gd" id="3_ivtx6"]
 [ext_resource type="Script" uid="uid://bmpbb8nn2wi5t" path="res://Scene/Car/PlayerTrigger.gd" id="5_tujvx"]
+[ext_resource type="AudioStream" uid="uid://j830x4ugivlv" path="res://Asset/Audio/CarAmbiance.mp3" id="6_2j816"]
 [ext_resource type="FontFile" uid="uid://cdvk3w4yuc8np" path="res://Asset/Font/ShortStack-Regular.ttf" id="8_cohtu"]
 
 [sub_resource type="Environment" id="Environment_ou18a"]
@@ -114,6 +115,10 @@ script = ExtResource("5_tujvx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/PlayerTrigger" unique_id=787536683]
 shape = SubResource("SphereShape3D_cohtu")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=389454406]
+stream = ExtResource("6_2j816")
+autoplay = true
+
 [node name="Road" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=301086017]
 
 [node name="RoadManager" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road" unique_id=2104401892]
@@ -124,89 +129,87 @@ metadata/_custom_type_script = "uid://d2a6aycqqymdg"
 script = ExtResource("2_mopgc")
 use_lowpoly_preview = true
 generate_ai_lanes = true
-edge_containers = Array[NodePath]([NodePath(""), NodePath("")])
-edge_rp_targets = Array[NodePath]([NodePath(""), NodePath("")])
-edge_rp_target_dirs = Array[int]([-1, -1])
-edge_rp_locals = Array[NodePath]([NodePath("RoadPoint-001"), NodePath("RoadPoint004")])
-edge_rp_local_dirs = Array[int]([0, 1])
+edge_containers = Array[NodePath]([NodePath(""), NodePath(""), NodePath(""), NodePath("")])
+edge_rp_targets = Array[NodePath]([NodePath(""), NodePath(""), NodePath(""), NodePath("")])
+edge_rp_target_dirs = Array[int]([-1, -1, -1, -1])
+edge_rp_locals = Array[NodePath]([NodePath("RoadPoint--1"), NodePath("RoadPoint--1"), NodePath("RoadPoint-01"), NodePath("RoadPoint-05")])
+edge_rp_local_dirs = Array[int]([0, 1, 0, 1])
 
-[node name="RoadPoint-001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=805952600]
+[node name="RoadPoint--1" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=805952600]
 transform = Transform3D(0.99999964, -4.4018793e-06, 0.00087977917, 0, 0.9999875, 0.0050033284, -0.00087979017, -0.0050033266, 0.9999871, 0, 0, 100)
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
 prior_mag = 49.96611
 next_mag = 49.96611
-prior_pt_init = NodePath("../RoadPoint")
 
-[node name="RoadPoint" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1072063692]
+[node name="RoadPoint-01" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1072063692]
 transform = Transform3D(0.9999988, 0, 0.0015618976, 0, 1, 0, -0.0015618976, 0, 0.9999988, 0, 0, 0)
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
 prior_mag = 190.20888
 next_mag = 49.96611
-prior_pt_init = NodePath("../RoadPoint001")
-next_pt_init = NodePath("../RoadPoint-001")
+prior_pt_init = NodePath("../RoadPoint-02")
 metadata/_custom_type_script = "uid://d1qkcatvpokjh"
 
-[node name="RoadPoint001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1049363488]
+[node name="RoadPoint-02" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1049363488]
 transform = Transform3D(0.9798571, 0.0017101751, 0.19969293, -0.0017453287, 0.99999857, -1.3846566e-10, -0.19969259, -0.00034852963, 0.97985864, -7.997, 0, -387.705)
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
 prior_mag = 187.50517
 next_mag = 101.36392
-prior_pt_init = NodePath("../RoadPoint002")
-next_pt_init = NodePath("../RoadPoint")
+prior_pt_init = NodePath("../RoadPoint-03")
+next_pt_init = NodePath("../RoadPoint-01")
 
-[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint001" unique_id=83939839]
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-02" unique_id=83939839]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint001/Trigger" unique_id=1461692767]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-02/Trigger" unique_id=1461692767]
 shape = SubResource("SphereShape3D_tujvx")
 
-[node name="RoadPoint002" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=83793956]
+[node name="RoadPoint-03" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=83793956]
 transform = Transform3D(0.9842558, -0.0017178523, -0.17674117, 0.0017453282, 0.9999984, -1.4472197e-11, 0.17674088, -0.00030847138, 0.98425716, -21.281, 0, -762.478)
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
 prior_mag = 196.05707
 next_mag = 150.68854
-prior_pt_init = NodePath("../RoadPoint003")
-next_pt_init = NodePath("../RoadPoint001")
+prior_pt_init = NodePath("../RoadPoint-04")
+next_pt_init = NodePath("../RoadPoint-02")
 
-[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint002" unique_id=2147120646]
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-03" unique_id=2147120646]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint002/Trigger" unique_id=717105058]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-03/Trigger" unique_id=717105058]
 shape = SubResource("SphereShape3D_tujvx")
 
-[node name="RoadPoint003" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1554228689]
+[node name="RoadPoint-04" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1554228689]
 transform = Transform3D(0.99802667, 0, 0.06279051, 0, 0.99999994, 0, -0.06279051, 0, 0.9980266, 10.783471, 0, -1070.282)
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
 prior_mag = 200.28952
 next_mag = 147.08458
-prior_pt_init = NodePath("../RoadPoint004")
-next_pt_init = NodePath("../RoadPoint002")
+prior_pt_init = NodePath("../RoadPoint-05")
+next_pt_init = NodePath("../RoadPoint-03")
 
-[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint003" unique_id=36415713]
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-04" unique_id=36415713]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint003/Trigger" unique_id=7624210]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-04/Trigger" unique_id=7624210]
 shape = SubResource("SphereShape3D_tujvx")
 
-[node name="RoadPoint004" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=927841319]
+[node name="RoadPoint-05" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=927841319]
 transform = Transform3D(0.9969157, -0.0017399479, -0.07845909, 0.0017453282, 0.99999845, 0, 0.07845897, -0.00013693688, 0.9969172, -5.959341, 0, -1470.7944)
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
 prior_mag = 200.28952
 next_mag = 200.28952
-next_pt_init = NodePath("../RoadPoint003")
+next_pt_init = NodePath("../RoadPoint-04")
 
-[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint004" unique_id=700765777]
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-05" unique_id=700765777]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint004/Trigger" unique_id=31972946]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint-05/Trigger" unique_id=31972946]
 shape = SubResource("SphereShape3D_tujvx")
 
 [node name="Terrain" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=977914424]

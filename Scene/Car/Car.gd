@@ -2,6 +2,7 @@ extends Node3D
 class_name Car
 
 @onready var agent: RoadLaneAgent = %RoadLaneAgent
+@onready var audio_stream_player_3d: AudioStreamPlayer = $AudioStreamPlayer
 var velocity: float = 30
 
 const max_speed: float = 30   
@@ -16,6 +17,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	update_velocity(delta)
+	car_volume()
+	
 	#print(velocity)
 	var next_pos: Vector3 = agent.move_along_lane(velocity * delta)
 	global_transform.origin = next_pos
@@ -28,3 +31,6 @@ func update_velocity(delta: float) -> void:
 		velocity = lerp(velocity, 0.0, delta * 1)
 		return
 	velocity = lerp(velocity, 0.0, delta * 0.2)
+
+func car_volume() -> void:
+	audio_stream_player_3d.volume_db = -40 + (30 * velocity/max_speed)
