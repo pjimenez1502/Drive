@@ -7,14 +7,24 @@
 [ext_resource type="Script" uid="uid://cbejax4cojbu1" path="res://Scene/Car/Car.gd" id="2_ivtx6"]
 [ext_resource type="Script" uid="uid://biw4mliovom8d" path="res://addons/road-generator/nodes/road_container.gd" id="2_mopgc"]
 [ext_resource type="Script" uid="uid://d1qkcatvpokjh" path="res://addons/road-generator/nodes/road_point.gd" id="3_ivtx6"]
+[ext_resource type="Script" uid="uid://bmpbb8nn2wi5t" path="res://Scene/Car/PlayerTrigger.gd" id="5_tujvx"]
+[ext_resource type="FontFile" uid="uid://cdvk3w4yuc8np" path="res://Asset/Font/ShortStack-Regular.ttf" id="8_cohtu"]
 
 [sub_resource type="Environment" id="Environment_ou18a"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_i8mdi"]
 size = Vector3(1.5, 1.3, 3.5)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_cohtu"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tujvx"]
+radius = 5.0
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_3xgnh"]
 size = Vector2(1000, 2000)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cohtu"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Game" type="Control" unique_id=338916806]
 layout_mode = 3
@@ -98,6 +108,12 @@ road_manager_path = NodePath("../../Road/RoadManager")
 visualize_lane = true
 metadata/_custom_type_script = "uid://86f75ry0igfc"
 
+[node name="PlayerTrigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=1832452074]
+script = ExtResource("5_tujvx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/PlayerTrigger" unique_id=787536683]
+shape = SubResource("SphereShape3D_cohtu")
+
 [node name="Road" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=301086017]
 
 [node name="RoadManager" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road" unique_id=2104401892]
@@ -111,7 +127,7 @@ generate_ai_lanes = true
 edge_containers = Array[NodePath]([NodePath(""), NodePath("")])
 edge_rp_targets = Array[NodePath]([NodePath(""), NodePath("")])
 edge_rp_target_dirs = Array[int]([-1, -1])
-edge_rp_locals = Array[NodePath]([NodePath("RoadPoint-001"), NodePath("RoadPoint001")])
+edge_rp_locals = Array[NodePath]([NodePath("RoadPoint-001"), NodePath("RoadPoint004")])
 edge_rp_local_dirs = Array[int]([0, 1])
 
 [node name="RoadPoint-001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=805952600]
@@ -128,49 +144,117 @@ transform = Transform3D(0.9999988, 0, 0.0015618976, 0, 1, 0, -0.0015618976, 0, 0
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
+prior_mag = 190.20888
 next_mag = 49.96611
 prior_pt_init = NodePath("../RoadPoint001")
 next_pt_init = NodePath("../RoadPoint-001")
 metadata/_custom_type_script = "uid://d1qkcatvpokjh"
 
 [node name="RoadPoint001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1049363488]
-transform = Transform3D(0.9999988, -6.647121e-06, 0.0015618833, 0, 0.99999094, 0.0042557986, -0.0015618975, -0.0042557935, 0.99998975, 0, 0, -1000)
+transform = Transform3D(0.9798571, 0.0017101751, 0.19969293, -0.0017453287, 0.99999857, -1.3846566e-10, -0.19969259, -0.00034852963, 0.97985864, -7.997, 0, -387.705)
 script = ExtResource("3_ivtx6")
 traffic_dir = Array[int]([2, 1])
 lanes = Array[int]([5, 5])
-prior_mag = 31.871422
-next_mag = 31.871422
+prior_mag = 187.50517
+next_mag = 101.36392
+prior_pt_init = NodePath("../RoadPoint002")
 next_pt_init = NodePath("../RoadPoint")
+
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint001" unique_id=83939839]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint001/Trigger" unique_id=1461692767]
+shape = SubResource("SphereShape3D_tujvx")
+
+[node name="RoadPoint002" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=83793956]
+transform = Transform3D(0.9842558, -0.0017178523, -0.17674117, 0.0017453282, 0.9999984, -1.4472197e-11, 0.17674088, -0.00030847138, 0.98425716, -21.281, 0, -762.478)
+script = ExtResource("3_ivtx6")
+traffic_dir = Array[int]([2, 1])
+lanes = Array[int]([5, 5])
+prior_mag = 196.05707
+next_mag = 150.68854
+prior_pt_init = NodePath("../RoadPoint003")
+next_pt_init = NodePath("../RoadPoint001")
+
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint002" unique_id=2147120646]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint002/Trigger" unique_id=717105058]
+shape = SubResource("SphereShape3D_tujvx")
+
+[node name="RoadPoint003" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=1554228689]
+transform = Transform3D(0.99802667, 0, 0.06279051, 0, 0.99999994, 0, -0.06279051, 0, 0.9980266, 10.783471, 0, -1070.282)
+script = ExtResource("3_ivtx6")
+traffic_dir = Array[int]([2, 1])
+lanes = Array[int]([5, 5])
+prior_mag = 200.28952
+next_mag = 147.08458
+prior_pt_init = NodePath("../RoadPoint004")
+next_pt_init = NodePath("../RoadPoint002")
+
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint003" unique_id=36415713]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint003/Trigger" unique_id=7624210]
+shape = SubResource("SphereShape3D_tujvx")
+
+[node name="RoadPoint004" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001" unique_id=927841319]
+transform = Transform3D(0.9969157, -0.0017399479, -0.07845909, 0.0017453282, 0.99999845, 0, 0.07845897, -0.00013693688, 0.9969172, -5.959341, 0, -1470.7944)
+script = ExtResource("3_ivtx6")
+traffic_dir = Array[int]([2, 1])
+lanes = Array[int]([5, 5])
+prior_mag = 200.28952
+next_mag = 200.28952
+next_pt_init = NodePath("../RoadPoint003")
+
+[node name="Trigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint004" unique_id=700765777]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager/Road_001/RoadPoint004/Trigger" unique_id=31972946]
+shape = SubResource("SphereShape3D_tujvx")
 
 [node name="Terrain" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=977914424]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Scene/Terrain" unique_id=661591624]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.501, 0)
+[node name="Ground" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Scene/Terrain" unique_id=661591624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4249268, -0.501, -837)
 mesh = SubResource("PlaneMesh_3xgnh")
 
 [node name="Panel" type="Panel" parent="." unique_id=1864944736]
-custom_minimum_size = Vector2(400, 80)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(480, 120)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
-offset_top = 45.0
-offset_right = 200.0
-offset_bottom = 125.0
+offset_left = -517.0
+offset_top = 58.0
+offset_right = -37.0
+offset_bottom = 178.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cohtu")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel" unique_id=1861773764]
+[node name="Text" type="RichTextLabel" parent="Panel" unique_id=1861773764]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 80)
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -200.0
-offset_right = 200.0
-offset_bottom = 80.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_right = -40.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("8_cohtu")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
 text = "I don't want to stop driving."
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="FadeRect" type="ColorRect" parent="." unique_id=985909874]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="area_entered" from="SubViewportContainer/SubViewport/Scene/PlayerCar/PlayerTrigger" to="SubViewportContainer/SubViewport/Scene/PlayerCar/PlayerTrigger" method="_on_area_entered"]

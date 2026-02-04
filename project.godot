@@ -15,6 +15,10 @@ run/main_scene="uid://bmpyp1e82ficd"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SignalBus="*uid://y68uaw70mik"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=2
@@ -27,6 +31,7 @@ enabled=PackedStringArray("res://addons/gdscript-function-helper/plugin.cfg", "r
 
 folder_colors={
 "res://Asset/": "green",
+"res://Global/": "red",
 "res://Scene/": "pink",
 "res://addons/": "gray"
 }
