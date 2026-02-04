@@ -4,19 +4,45 @@
 [ext_resource type="Script" uid="uid://cy7t7eftsty3j" path="res://Scene/Game.gd" id="1_48ymf"]
 [ext_resource type="Script" uid="uid://86f75ry0igfc" path="res://addons/road-generator/nodes/road_lane_agent.gd" id="1_mopgc"]
 [ext_resource type="Script" uid="uid://d2a6aycqqymdg" path="res://addons/road-generator/nodes/road_manager.gd" id="1_ou18a"]
+[ext_resource type="Shader" uid="uid://cj8rywac35s2x" path="res://Material/Shader/StrokeJitter.gdshader" id="2_aawhf"]
 [ext_resource type="Script" uid="uid://cbejax4cojbu1" path="res://Scene/Car/Car.gd" id="2_ivtx6"]
 [ext_resource type="Script" uid="uid://biw4mliovom8d" path="res://addons/road-generator/nodes/road_container.gd" id="2_mopgc"]
 [ext_resource type="Script" uid="uid://d1qkcatvpokjh" path="res://addons/road-generator/nodes/road_point.gd" id="3_ivtx6"]
+[ext_resource type="PackedScene" uid="uid://cmh1kcbqkxof2" path="res://Asset/3D/Car.glb" id="5_bxrg2"]
 [ext_resource type="Script" uid="uid://bmpbb8nn2wi5t" path="res://Scene/Car/PlayerTrigger.gd" id="5_tujvx"]
 [ext_resource type="AudioStream" uid="uid://j830x4ugivlv" path="res://Asset/Audio/CarAmbiance.mp3" id="6_2j816"]
+[ext_resource type="Script" uid="uid://kpdqnq4reobi" path="res://Scene/Camera.gd" id="6_bxrg2"]
 [ext_resource type="FontFile" uid="uid://cdvk3w4yuc8np" path="res://Asset/Font/ShortStack-Regular.ttf" id="8_cohtu"]
+[ext_resource type="Shader" uid="uid://cyo2s6pnur3ho" path="res://Material/Shader/Road.tres" id="8_jwmyi"]
+[ext_resource type="Texture2D" uid="uid://ceh4hkpuvay62" path="res://Material/Terrain/Road.png" id="9_nspe4"]
+[ext_resource type="Material" uid="uid://cw1xca3ypfob5" path="res://Material/Terrain/TerrainMat.tres" id="10_g3fkh"]
+[ext_resource type="Shader" uid="uid://2ad0sllqkd7n" path="res://Material/Shader/CHAberration_Vignette.gdshader" id="16_13sni"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kcbv6"]
+shader = ExtResource("2_aawhf")
+shader_parameter/shaking = true
+shader_parameter/amplitude = 1.0
+shader_parameter/noise_scale = 200.0
+shader_parameter/noise_speed = 2.0
 
 [sub_resource type="Environment" id="Environment_ou18a"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_i8mdi"]
-size = Vector3(1.5, 1.3, 3.5)
+background_energy_multiplier = 0.0
+reflected_light_source = 1
+tonemap_mode = 3
+glow_bloom = 0.53
+glow_hdr_threshold = 1.24
+fog_mode = 1
+fog_light_color = Color(0, 0, 0, 1)
+fog_density = 1.0
+fog_depth_curve = 1.2311445
+adjustment_saturation = 1.4
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_cohtu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nspe4"]
+render_priority = 0
+shader = ExtResource("8_jwmyi")
+shader_parameter/RoadMarks = ExtResource("9_nspe4")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tujvx"]
 radius = 5.0
@@ -24,8 +50,25 @@ radius = 5.0
 [sub_resource type="PlaneMesh" id="PlaneMesh_3xgnh"]
 size = Vector2(1000, 2000)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_13sni"]
+shader = ExtResource("2_aawhf")
+shader_parameter/shaking = true
+shader_parameter/amplitude = 4.0
+shader_parameter/noise_scale = 2.0
+shader_parameter/noise_speed = 1.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cohtu"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bxrg2"]
+resource_local_to_scene = true
+shader = ExtResource("16_13sni")
+shader_parameter/r_displacement = Vector2(3, 0)
+shader_parameter/g_displacement = Vector2(0, 0)
+shader_parameter/b_displacement = Vector2(-3, 0)
+shader_parameter/vignette_intensity = 0.8
+shader_parameter/vignette_opacity = 0.5
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 
 [node name="Game" type="Control" unique_id=338916806]
 layout_mode = 3
@@ -38,6 +81,7 @@ script = ExtResource("1_48ymf")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=147955258]
 texture_filter = 1
+material = SubResource("ShaderMaterial_kcbv6")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,20 +101,27 @@ render_target_update_mode = 4
 [node name="Scene" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=231764403]
 script = ExtResource("1_3xgnh")
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=301487485]
+transform = Transform3D(0.8660254, 2.1855694e-08, -0.5, 0.5, -3.7855173e-08, 0.8660254, 0, -1, -4.371139e-08, 0, 45.553345, 0)
+light_color = Color(0.99999994, 0.92357576, 0.8625919, 1)
+light_energy = 0.05
+light_indirect_energy = 0.0
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/Scene" unique_id=1904604545]
 environment = SubResource("Environment_ou18a")
 
 [node name="PlayerCar" type="Node3D" parent="SubViewportContainer/SubViewport/Scene" unique_id=1836602889]
 script = ExtResource("2_ivtx6")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=311654151]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
-mesh = SubResource("BoxMesh_i8mdi")
+[node name="Car2" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=2113024790 instance=ExtResource("5_bxrg2")]
 
-[node name="CameraPivot" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=349012654]
-transform = Transform3D(0.70710677, -0.6408564, 0.29883623, 0, 0.42261824, 0.9063078, -0.70710677, -0.6408564, 0.29883623, 0, 0, 0)
+[node name="Camera" type="Node" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=1412653899]
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/CameraPivot" unique_id=2039725816]
+[node name="CameraPivot" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Camera" unique_id=349012654]
+transform = Transform3D(0.7824465, -0.5650642, 0.2616875, 0.014734552, 0.43691653, 0.8993812, -0.62254393, -0.6998618, 0.35018992, -0.4729004, 0, -0.9363861)
+script = ExtResource("6_bxrg2")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Camera/CameraPivot" unique_id=2039725816]
 transform = Transform3D(1, 0, 0, 0, 1, -5.9604645e-08, 0, 2.9802322e-08, 1, 0, 0, 25)
 current = true
 
@@ -78,35 +129,58 @@ current = true
 
 [node name="Front_L" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=1275283129]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -2)
+light_color = Color(0.9999998, 0.96834975, 0.88496196, 1)
+light_energy = 2.0
+light_indirect_energy = 0.0
 shadow_enabled = true
-spot_range = 80.0
-spot_attenuation = 0.5
+spot_range = 35.0
+spot_attenuation = 0.25
+spot_angle = 65.0
+spot_angle_attenuation = 2.8284273
 
 [node name="Front_R" type="SpotLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=796058253]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -2)
+light_color = Color(0.9999998, 0.96834975, 0.88496196, 1)
+light_energy = 2.0
+light_indirect_energy = 0.0
 shadow_enabled = true
-spot_range = 80.0
-spot_attenuation = 0.5
+spot_range = 35.0
+spot_attenuation = 0.25
+spot_angle = 65.0
+spot_angle_attenuation = 2.8284273
 
 [node name="Back_R" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=274400027]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 1.835)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.69065857, 1.7598658)
 light_color = Color(1, 0, 0, 1)
 light_energy = 0.1
 shadow_enabled = true
-omni_range = 2.0
+omni_range = 0.15
 
 [node name="Back_L" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=380112815]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 1.835)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.69065857, 1.7598658)
 light_color = Color(1, 0, 0, 1)
 light_energy = 0.1
 shadow_enabled = true
-omni_range = 2.0
+omni_range = 0.15
+
+[node name="Back_R2" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=286183287]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.80796814, -1.6128149)
+light_color = Color(0.99215686, 0.93333334, 0.85490197, 1)
+light_energy = 0.1
+shadow_enabled = true
+omni_range = 0.15
+
+[node name="Back_L2" type="OmniLight3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar/Lights" unique_id=393754839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.80796814, -1.6128149)
+light_color = Color(0.99215686, 0.93333334, 0.85490197, 1)
+light_energy = 0.1
+shadow_enabled = true
+omni_range = 0.15
 
 [node name="RoadLaneAgent" type="Node" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=535013523]
 unique_name_in_owner = true
 script = ExtResource("1_mopgc")
 road_manager_path = NodePath("../../Road/RoadManager")
-visualize_lane = true
 metadata/_custom_type_script = "uid://86f75ry0igfc"
 
 [node name="PlayerTrigger" type="Area3D" parent="SubViewportContainer/SubViewport/Scene/PlayerCar" unique_id=1832452074]
@@ -124,12 +198,14 @@ autoplay = true
 
 [node name="RoadManager" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road" unique_id=2104401892]
 script = ExtResource("1_ou18a")
+material_resource = SubResource("ShaderMaterial_nspe4")
 metadata/_custom_type_script = "uid://d2a6aycqqymdg"
 
 [node name="Road_001" type="Node3D" parent="SubViewportContainer/SubViewport/Scene/Road/RoadManager" unique_id=256592211]
 script = ExtResource("2_mopgc")
 use_lowpoly_preview = true
 generate_ai_lanes = true
+auto_free_vehicles = false
 edge_containers = Array[NodePath]([NodePath(""), NodePath(""), NodePath(""), NodePath("")])
 edge_rp_targets = Array[NodePath]([NodePath(""), NodePath(""), NodePath(""), NodePath("")])
 edge_rp_target_dirs = Array[int]([-1, -1, -1, -1])
@@ -217,31 +293,57 @@ shape = SubResource("SphereShape3D_tujvx")
 
 [node name="Ground" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Scene/Terrain" unique_id=661591624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4249268, -0.501, -837)
+material_override = ExtResource("10_g3fkh")
 mesh = SubResource("PlaneMesh_3xgnh")
 
-[node name="Panel" type="Panel" parent="." unique_id=1864944736]
+[node name="TextSubviewport" type="SubViewportContainer" parent="." unique_id=1143597612]
+material = SubResource("ShaderMaterial_13sni")
+layout_mode = 0
+offset_left = 49.0
+offset_top = 46.0
+offset_right = 553.0
+offset_bottom = 192.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="TextSubviewport" unique_id=2099089968]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(504, 146)
+render_target_update_mode = 4
+
+[node name="Panel" type="Panel" parent="TextSubviewport/SubViewport" unique_id=1864944736]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(480, 120)
-layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -517.0
-offset_top = 58.0
-offset_right = -37.0
-offset_bottom = 178.0
+offset_left = -240.0
+offset_top = 15.0
+offset_right = 240.0
+offset_bottom = 135.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cohtu")
 
-[node name="Text" type="RichTextLabel" parent="Panel" unique_id=1861773764]
+[node name="FadeRect" type="ColorRect" parent="." unique_id=985909874]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Text" type="RichTextLabel" parent="." unique_id=1861773764]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 80)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_right = -40.0
+offset_left = 97.0
+offset_top = 68.0
+offset_right = -655.0
+offset_bottom = -475.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("8_cohtu")
@@ -252,13 +354,13 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FadeRect" type="ColorRect" parent="." unique_id=985909874]
+[node name="Bulge" type="ColorRect" parent="." unique_id=208362319]
+material = SubResource("ShaderMaterial_bxrg2")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
 [connection signal="area_entered" from="SubViewportContainer/SubViewport/Scene/PlayerCar/PlayerTrigger" to="SubViewportContainer/SubViewport/Scene/PlayerCar/PlayerTrigger" method="_on_area_entered"]

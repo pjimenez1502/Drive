@@ -46,7 +46,7 @@ func fade(reverse:bool = false) -> void:
 	match reverse:
 		false:
 			fade_rect.modulate.a = 1
-			fade_tween.tween_property(fade_rect, "modulate:a", 0, 10).set_trans(Tween.TRANS_QUAD)
+			fade_tween.tween_property(fade_rect, "modulate:a", 0, 20).set_trans(Tween.TRANS_QUAD)
 		true:
 			fade_rect.modulate.a = 0
 			fade_tween.tween_property(fade_rect, "modulate:a", 1, 10).set_trans(Tween.TRANS_QUAD)

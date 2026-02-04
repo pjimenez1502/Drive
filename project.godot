@@ -32,6 +32,7 @@ enabled=PackedStringArray("res://addons/gdscript-function-helper/plugin.cfg", "r
 folder_colors={
 "res://Asset/": "green",
 "res://Global/": "red",
+"res://Material/": "yellow",
 "res://Scene/": "pink",
 "res://addons/": "gray"
 }

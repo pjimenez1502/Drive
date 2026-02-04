@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b4ixhaimjo45l"]
+
+[ext_resource type="PackedScene" uid="uid://i183dudl6udp" path="res://Asset/3D/SpeedSignal.glb" id="1_qu32b"]
+
+[node name="SpeedSignal" type="Node3D" unique_id=1778786291]
+
+[node name="SpeedSignal2" parent="." unique_id=334879673 instance=ExtResource("1_qu32b")]

@@ -1,0 +1,23 @@
+[gd_resource type="VisualShader" format=3 uid="uid://cyo2s6pnur3ho"]
+
+[ext_resource type="Texture2D" uid="uid://ceh4hkpuvay62" path="res://Material/Terrain/Road.png" id="1_nptu5"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_nptu5"]
+source = 5
+texture = ExtResource("1_nptu5")
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_nptu5"]
+parameter_name = "RoadMarks"
+texture_type = 1
+texture_filter = 1
+
+[resource]
+modes/diffuse = 3
+modes/specular = 1
+nodes/vertex/0/position = Vector2(1280, 80)
+nodes/fragment/0/position = Vector2(540, 20)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_nptu5")
+nodes/fragment/2/position = Vector2(-520, 40)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_nptu5")
+nodes/fragment/3/position = Vector2(-880, 20)
+nodes/fragment/connections = PackedInt32Array(3, 0, 2, 2, 2, 0, 0, 0)

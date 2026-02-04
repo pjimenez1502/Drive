@@ -18,8 +18,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	update_velocity(delta)
-	car_volume()
+	align_to_road()
 	
+	car_volume()
 	#print(velocity)
 	var next_pos: Vector3 = agent.move_along_lane(velocity * delta)
 	global_transform.origin = next_pos
@@ -33,6 +34,14 @@ func update_velocity(delta: float) -> void:
 		return
 	velocity = lerp(velocity, 0.0, delta * 0.2)
 
+## ALIGN
+func align_to_road() -> void:
+	var orientation:Vector3 = agent.test_move_along_lane(0.05)
+	if ! global_transform.origin.is_equal_approx(orientation):
+		look_at(orientation, Vector3.UP)
+
+
+## AUDIO
 func fade_car_vol_limit(limit: float) -> void:
 	var car_vol_tween: Tween = get_tree().create_tween()
 	car_vol_tween.tween_method(set_car_vol_limit, car_volume_limit, limit, 6)
